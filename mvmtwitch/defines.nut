@@ -2,6 +2,7 @@
 ::MAX_PLAYERS <- MaxClients().tointeger()
 ::TF_GAMERULES <- Entities.FindByClassname(null, "tf_gamerules")
 ::MONSTER_RESOURCE <- Entities.FindByClassname(null, "monster_resource")
+::WORLDSPAWN <- Entities.FindByClassname(null, "worldspawn")
 
 ::GLOBALTHINKENT <- Entities.CreateByClassname("info_target");
 AddThinkToEnt(GLOBALTHINKENT, "globalThink");
@@ -109,13 +110,13 @@ function thinkTank ()
     if (hhh != null)
     {
         local hhhpos = hhh.GetOrigin()
-        hhh.SetHealth(hhh.GetHealth() + 10000)
+        hhh.SetHealth(hhh.GetHealth() + 5000)
         SendGlobalGameEvent("show_annotation", {
             worldPosX = hhhpos.x
             worldPosY = hhhpos.y
             worldPosZ = hhhpos.z
             id = 0
-            text = "" + donorname + " gave the Horseman +3000 HP!"
+            text = "" + donorname + " gave the Horseman +5000 HP!"
             lifetime = 3.0
         })
         return hhh
@@ -125,8 +126,10 @@ function thinkTank ()
     hhh = SpawnEntityFromTable("headless_hatman", {
         targetname = hhh_name,
         team = teamnum,
-        health = 10000
     })
+
+    EntFireByHandle(hhh, "RunsScriptCode", "self.SetMaxHealth(5000)", 0, hhh, hhh)
+    EntFireByHandle(hhh, "RunsScriptCode", "self.SetHealth(5000)", 0, hhh, hhh)
 
     local glow = SpawnEntityFromTable("tf_glow", {
         target = "bignet", GlowColor = "255 0 255 255"
@@ -161,3 +164,23 @@ function hhhHealthBarThink() {
         NetProps.SetPropInt(MONSTER_RESOURCE, "m_iBossHealthPercentageByte", healthratio * 255)
     }
 }
+
+function OnScriptHook_OnTakeDamage(params) {
+    local attacker = params.attacker
+    if (attacker.GetClassname() == "headless_hatman")
+    {
+        for (local player = null; player = Entities.FindByClassnameWithin(player, "player", attacker.GetOrigin(), 200);)
+        {
+            if (player == null || !player.IsAlive() || player == params.const_entity){
+                printl("skipping damage")
+                continue
+            }
+            // player.TakeDamage(100, 128, null)
+            player.TakeDamageEx(WORLDSPAWN, WORLDSPAWN, null, Vector(0, 0, 0), attacker.GetOrigin() , 150 , 128)
+            printl(player + "took damage")
+        }
+    }
+}
+
+ClearGameEventCallbacks()
+__CollectGameEventCallbacks(this)
