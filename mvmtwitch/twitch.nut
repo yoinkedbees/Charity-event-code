@@ -1,4 +1,5 @@
 IncludeScript("mvmtwitch/defines.nut")
+IncludeScript("mvmtwitch/gamevents.nut")
 // IncludeScript("mvmtwitch/buster.nut")
 
 function twitchHandler(username, amount, message) {

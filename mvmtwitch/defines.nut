@@ -32,6 +32,16 @@ PrecacheModel("models/weapons/c_models/c_big_mallet/c_big_mallet.mdl")
     return value;
 }
 
+function RandomKeyFromTable(table) {
+    // Collect keys into an array
+    local keys = [];
+    foreach(key, value in table) {
+        keys.append(key);
+    }
+
+    return keys[RandomInt(0, keys.len())]
+}
+
 ::clearCosmetics <- function()
 {
     for (local wearable = self.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
@@ -51,14 +61,14 @@ PrecacheModel("models/weapons/c_models/c_big_mallet/c_big_mallet.mdl")
     }
 }
 
-::ChangePlayerTeamMvM <- function(player, teamnum)
+function ChangePlayerTeamMvM(player, teamnum)
 {
 	NetProps.SetPropBool(TF_GAMERULES, "m_bPlayingMannVsMachine", false)
 	player.ForceChangeTeam(teamnum, false)
 	NetProps.SetPropBool(TF_GAMERULES, "m_bPlayingMannVsMachine", true)
 }
 
-::SpawnTank <- function (donorname) {
+function SpawnTank(donorname) {
     local tank_name = DoUniqueString("yoinkedbees_tank");
     local tank = SpawnEntityFromTable("tank_boss", {
         targetname = tank_name,
@@ -104,13 +114,14 @@ function thinkTank ()
 //     printl(clamp(health_left, 0.25, 1))
 // }
 
-::SpawnHorseman <- function(donorname, teamnum) {
+function SpawnHorseman(donorname, teamnum) {
     local hhh = Entities.FindByClassname(null, "headless_hatman")
 
     if (hhh != null)
     {
         local hhhpos = hhh.GetOrigin()
         hhh.SetHealth(hhh.GetHealth() + 5000)
+        hhh.SetMaxHealth(hhh.GetHealth())
         SendGlobalGameEvent("show_annotation", {
             worldPosX = hhhpos.x
             worldPosY = hhhpos.y
@@ -132,7 +143,8 @@ function thinkTank ()
     EntFireByHandle(hhh, "RunsScriptCode", "self.SetHealth(5000)", 0, hhh, hhh)
 
     local glow = SpawnEntityFromTable("tf_glow", {
-        target = "bignet", GlowColor = "255 0 255 255"
+        target = "bignet",
+        GlowColor = "255 0 255 255",
         mode = 0
     })
     NetProps.SetPropEntity(glow, "m_hTarget", hhh)
@@ -164,23 +176,3 @@ function hhhHealthBarThink() {
         NetProps.SetPropInt(MONSTER_RESOURCE, "m_iBossHealthPercentageByte", healthratio * 255)
     }
 }
-
-function OnScriptHook_OnTakeDamage(params) {
-    local attacker = params.attacker
-    if (attacker.GetClassname() == "headless_hatman")
-    {
-        for (local player = null; player = Entities.FindByClassnameWithin(player, "player", attacker.GetOrigin(), 200);)
-        {
-            if (player == null || !player.IsAlive() || player == params.const_entity){
-                printl("skipping damage")
-                continue
-            }
-            // player.TakeDamage(100, 128, null)
-            player.TakeDamageEx(WORLDSPAWN, WORLDSPAWN, null, Vector(0, 0, 0), attacker.GetOrigin() , 150 , 128)
-            printl(player + "took damage")
-        }
-    }
-}
-
-ClearGameEventCallbacks()
-__CollectGameEventCallbacks(this)
