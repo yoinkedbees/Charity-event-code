@@ -8,15 +8,16 @@ function twitchHandler(username, amount, message) {
     switch (amount) {
         case 1000:
             ClientPrint(null, 3, "\x07FF3F3F" + username + "\x01 donated \x03$" + amount/100 + "\x01, triggering rtd on a random player!!")
-            ApplyRTD(GetListenServerHost())
+            ApplyRTD(getRandomPlayer())
             break;
         case 1200: // $12.00
             ClientPrint(null, 3, "\x07FF3F3F" + username + "\x01 donated \x03$" + amount/100 + "\x01, spawning the horseman!")
             SpawnHorseman(username, Constants.ETFTeam.TF_TEAM_PVE_INVADERS)
             break;
         case 2000:
-            ChangePlayerTeamMvM(GetListenServerHost(), Constants.ETFTeam.TF_TEAM_PVE_INVADERS) //Constants.ETFTeam.TF_TEAM_BLUE is also perfectly valid
-            DoEntFire("!self", "RunScriptCode", "self.ForceRespawn()", 0, null, GetListenServerHost());
+            local player = getRandomPlayer()
+            ChangePlayerTeamMvM(player, Constants.ETFTeam.TF_TEAM_PVE_INVADERS) //Constants.ETFTeam.TF_TEAM_BLUE is also perfectly valid
+            DoEntFire("!self", "RunScriptCode", "self.ForceRespawn()", 0, null, player);
             ClientPrint(null, 3, "\x07FF3F3F" + username + "\x01 donated \x03$" + amount/100 + "\x01, switching to robot!")
             printl("case for 20 dollars")
             break;
