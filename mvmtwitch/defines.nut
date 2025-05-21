@@ -39,7 +39,7 @@ function RandomKeyFromTable(table) {
         keys.append(key);
     }
 
-    return keys[RandomInt(0, keys.len())]
+    return keys[RandomInt(0, keys.len()-1)]
 }
 
 ::clearCosmetics <- function()

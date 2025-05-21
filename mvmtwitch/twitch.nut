@@ -1,10 +1,15 @@
 IncludeScript("mvmtwitch/defines.nut")
-IncludeScript("mvmtwitch/gamevents.nut")
+IncludeScript("mvmtwitch/gameevents.nut")
+IncludeScript("mvmtwitch/rtd.nut")
 // IncludeScript("mvmtwitch/buster.nut")
 
 function twitchHandler(username, amount, message) {
-    ClientPrint(null, 3, "\x07ffffff[\x07ff00fftwitch intergration\x07ffffff] \x07FF3F3F" + username + " \x01donated: \x03$" + amount/100 + " \x01with message: " + message)
+    ClientPrint(null, 3, "\x07ffffff[\x07ff00ffTwitch Integration\x07ffffff] \x07FF3F3F" + username + " \x01donated: \x03$" + amount/100 + " \x01with message: " + message)
     switch (amount) {
+        case 1000:
+            ClientPrint(null, 3, "\x07FF3F3F" + username + "\x01 donated \x03$" + amount/100 + "\x01, triggering rtd on a random player!!")
+            ApplyRTD(GetListenServerHost())
+            break;
         case 1200: // $12.00
             ClientPrint(null, 3, "\x07FF3F3F" + username + "\x01 donated \x03$" + amount/100 + "\x01, spawning the horseman!")
             SpawnHorseman(username, Constants.ETFTeam.TF_TEAM_PVE_INVADERS)
