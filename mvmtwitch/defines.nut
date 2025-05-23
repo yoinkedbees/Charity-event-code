@@ -7,6 +7,17 @@
 ::GLOBALTHINKENT <- Entities.CreateByClassname("info_target");
 AddThinkToEnt(GLOBALTHINKENT, "globalThink");
 
+function getRandomPlayer() {
+    local players = []
+    for (local i = 1; i <= MAX_PLAYERS ; i++)
+    {
+        local player = PlayerInstanceFromIndex(i)
+        if (player == null || player.IsFakeClient() || player.IsBotOfType(Constants.TF_BOT_TYPE)) continue
+        players.append(player)
+    }
+    return players;
+}
+
 function globalThink()
 {
     local hhh = Entities.FindByClassname(null, "headless_hatman")
