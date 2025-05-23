@@ -29,17 +29,4 @@ function ApplyRTD(player) {
         }
     }
     ClientPrint(player, 3, "\x07ffffff[\x07ff00ffTwitch RTD\x07ffffff] You got " + key + " " + RTD_TABLE[key].description)
-    player.ValidateScriptScope()
-    player.GetScriptScope().activeRTD <- key
-}
-
-function RTD_PlayerDeath(player) {
-    player.GetScriptScope().activeRTD <- false
-}
-
-function RTD_Reapply(player) {
-    if (player.GetScriptScope().activeRTD)
-    {
-        ApplyRTD(player)
-    }
 }
