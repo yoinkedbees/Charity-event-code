@@ -15,9 +15,9 @@ function getRandomPlayer() {
         if (player == null || player.IsFakeClient() || player.IsBotOfType(Constants.TF_BOT_TYPE)) continue
         players.append(player)
     }
-    return players;
+    local randomIndex = RandomInt(0, players.len() - 1)
+    return players[randomIndex];
 }
-
 function globalThink()
 {
     local hhh = Entities.FindByClassname(null, "headless_hatman")
