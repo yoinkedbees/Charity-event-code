@@ -19,22 +19,22 @@ yoinkedbees_mvm.OnScriptHook_OnTakeDamage <- function (params) {
     }
 }
 
-yoinkedbees_mvm.OnGameEvent_player_team <- function (params) {
-    local player = GetPlayerFromUserID(params.userid)
-    if (!IsPlayerABot(player))
-        player.ValidateScriptScope()
-}
-yoinkedbees_mvm.OnGameEvent_player_death <- function (params) {
-    local player = GetPlayerFromUserID(params.userid)
-    if (!IsPlayerABot(player))
-        RTD_PlayerDeath(player)
-}
+// yoinkedbees_mvm.OnGameEvent_player_team <- function (params) {
+//     local player = GetPlayerFromUserID(params.userid)
+//     if (!IsPlayerABot(player))
+//         player.ValidateScriptScope()
+// }
+// yoinkedbees_mvm.OnGameEvent_player_death <- function (params) {
+//     local player = GetPlayerFromUserID(params.userid)
+//     if (!IsPlayerABot(player))
+//         RTD_PlayerDeath(player)
+// }
 
-yoinkedbees_mvm.OnGameEvent_post_inventory_application <- function (params) {
-    local player = GetPlayerFromUserID(params.userid)
-    if (!IsPlayerABot(player))
-        RTD_Reapply(player)
-}
+// yoinkedbees_mvm.OnGameEvent_post_inventory_application <- function (params) {
+//     local player = GetPlayerFromUserID(params.userid)
+//     if (!IsPlayerABot(player))
+//         RTD_Reapply(player)
+// }
 
 yoinkedbees_mvm.ClearGameEventCallbacks <- ::ClearGameEventCallbacks
 ::ClearGameEventCallbacks <- function ()
