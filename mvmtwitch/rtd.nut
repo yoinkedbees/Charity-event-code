@@ -7,7 +7,7 @@
 }
 
 ::RTD_TABLE <- {
-        "Lucky Sandvich" : {
+    "Lucky Sandvich" : {
         description = "Yum!",
         conds = false,
         func = LuckySandvich
@@ -23,7 +23,7 @@
         conds = [27,24,25], // make bleed function
         condLength = 20,
         func = Bleed
-        
+
     },
     "Melee Only":{
         description = "No guns, only fists",
@@ -60,7 +60,7 @@
         conds = [33],
         condLength = 20,
         func = false
-    }, 
+    },
     "King Engine":{
         description = "power to the king! Health regen, fire rate and reload rate are all buffed!",
         conds = [109,113],

@@ -32,26 +32,20 @@ yoinkedbees_mvm.OnScriptHook_OnTakeDamage <- function (params) {
 
 yoinkedbees_mvm.OnGameEvent_post_inventory_application <- function (params) {
 	local player = GetPlayerFromUserID(params.userid)
-	if (IsPlayerABot(player)) return;
-    // paint all hats pink
-    for (local wearable = player.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
-    {
-        if (wearable.GetClassname() != "tf_wearable")
-            continue
-        wearable.AddAttribute("set item tint RGB", 16738740, -1)
-    }
-    // paint weapons pink (for energy weapons)
-    for (local i = 0; i < MAX_WEAPONS; i++)
-    {
-        local weapon = NetProps.GetPropEntityArray(player, "m_hMyWeapons", i)
-        if (weapon == null)
-            continue
-        weapon.AddAttribute("set item tint RGB", 16738740, -1)
-    }
-}
 
-yoinkedbees_mvm.OnGameEvent_post_inventory_application <- function (params) {
-	local player = GetPlayerFromUserID(params.userid)
+    local BOT_MODELS = [
+        "models/error.mdl",
+        "models/bots/scout/bot_scout.mdl",
+        "models/bots/sniper/bot_sniper.mdl",
+        "models/bots/soldier/bot_soldier.mdl",
+        "models/bots/demo/bot_demo.mdl",
+        "models/bots/medic/bot_medic.mdl",
+        "models/bots/heavy/bot_heavy.mdl",
+        "models/bots/pyro/bot_pyro.mdl",
+        "models/bots/spy/bot_spy.mdl",
+        "models/bots/engineer/bot_engineer.mdl",
+    ];
+
 	if (IsPlayerABot(player)) return;
     // paint all hats pink
     for (local wearable = player.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
@@ -67,6 +61,15 @@ yoinkedbees_mvm.OnGameEvent_post_inventory_application <- function (params) {
         if (weapon == null)
             continue
         weapon.AddAttribute("set item tint RGB", 16738740, -1)
+    }
+    if (player.GetTeam() == Constants.ETFTeam.TF_TEAM_PVE_INVADERS)
+    {
+        player.SetCustomModelWithClassAnimations(BOT_MODELS[player.GetPlayerClass()])
+        EntFireByHandle(player, "CallScriptFunction", "clearCosmetics", 0, player, player)
+    }
+    else
+    {
+        player.SetCustomModel("")
     }
 }
 

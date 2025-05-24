@@ -12,7 +12,7 @@ function getRandomPlayer() {
     for (local i = 1; i <= MAX_PLAYERS ; i++)
     {
         local player = PlayerInstanceFromIndex(i)
-        if (player == null || player.IsFakeClient() || player.IsBotOfType(Constants.TF_BOT_TYPE)) continue
+        if (player == null || player.IsFakeClient() || player.IsBotOfType( 1337 /* Constants.EBotType.TF_BOT_TYPE */)) continue
         players.append(player)
     }
     local randomIndex = RandomInt(0, players.len() - 1)
@@ -60,7 +60,10 @@ function RandomKeyFromTable(table) {
         if(wearable.IsValid() != true)
             continue
 
-        if(wearable.GetClassname() != "tf_wearable" && wearable.GetClassname() != "tf_wearable_campaign_item" && wearable.GetClassname() != "tf_powerup_bottle" && wearable.GetClassname() != "tf_wearable_demoshield")
+        local weaponIndex = -1
+        weaponIndex = NetProps.GetPropInt(wearable, "m_AttributeManager.m_Item.m_iItemDefinitionIndex")
+
+        if(wearable.GetClassname() != "tf_wearable" && wearable.GetClassname() != "tf_wearable_campaign_item" && wearable.GetClassname() != "tf_powerup_bottle")  // && wearable.GetClassname() != "tf_wearable_demoshield
         {
             continue
         }
