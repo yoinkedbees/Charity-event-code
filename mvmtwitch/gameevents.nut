@@ -50,6 +50,26 @@ yoinkedbees_mvm.OnGameEvent_post_inventory_application <- function (params) {
     }
 }
 
+yoinkedbees_mvm.OnGameEvent_post_inventory_application <- function (params) {
+	local player = GetPlayerFromUserID(params.userid)
+	if (IsPlayerABot(player)) return;
+    // paint all hats pink
+    for (local wearable = player.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
+    {
+        if (wearable.GetClassname() != "tf_wearable")
+            continue
+        wearable.AddAttribute("set item tint RGB", 16738740, -1)
+    }
+    // paint weapons pink (for energy weapons)
+    for (local i = 0; i < MAX_WEAPONS; i++)
+    {
+        local weapon = NetProps.GetPropEntityArray(player, "m_hMyWeapons", i)
+        if (weapon == null)
+            continue
+        weapon.AddAttribute("set item tint RGB", 16738740, -1)
+    }
+}
+
 yoinkedbees_mvm.ClearGameEventCallbacks <- ::ClearGameEventCallbacks
 ::ClearGameEventCallbacks <- function ()
 {
