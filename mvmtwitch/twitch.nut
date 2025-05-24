@@ -31,5 +31,9 @@ function twitchHandler(username, amount, message) {
             ClientPrint(null, 3, "\x07FF3F3F" + username + "\x01 donated \x03$" + amount/100 + "\x01, spawning a tank!!")
             printl("case for 30 dollars")
             break;
+        case 7500:
+            ClientPrint(null, 3, "\x07FF3F3F" + username + "\x01 donated \x03$" + amount/100 + "\x01, Restarted the round!!")
+            Convars.SetValue("mp_restartgame", 5)
+            break;
     }
 }
