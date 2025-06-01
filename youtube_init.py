@@ -1,4 +1,4 @@
-#paste this into events/ youtube super chat on mixitup
+#paste this into a script action for "Youtube Super Chat"
 from rcon.source import Client
 
 def run():
